@@ -1,13 +1,24 @@
+import react, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Hello, world! This is Tony.</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+class MyComponent extends Component {
+  state = {
+    title: 'Welcome to WEB530',
+    btnTitle: 'GO',
+  };
+
+  render() {
+    const { title, btnTitle } = this.state;
+
+    return (
+      <View style={styles.container}>
+        <Text>{title}</Text>
+        <Button title={btnTitle} />
+        <StatusBar style="auto" />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -18,3 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default function App() {
+  return <MyComponent />;
+}
