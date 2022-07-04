@@ -1,21 +1,53 @@
-import { Button, Card, Text } from '@ui-kitten/components';
+import { Button, Card, Icon, Text } from '@ui-kitten/components';
 import dayjs from 'dayjs';
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { DbActivity, DbUser } from '../../backend';
+import { DbActivity, DbUser, getUser } from '../../backend';
 
 export interface ActivityListItemProps {
   activity: DbActivity;
 }
 
+interface DetailsProps {
+  label: string;
+  value: string;
+
+  iconName?: string;
+}
+
+const Details = ({ label, value, iconName }: DetailsProps) => {
+  return (
+    <View style={styles.details}>
+      <View style={styles.row}>
+        <Text category="s1">{label}</Text>
+        {iconName && <Icon style={styles.icon} name={iconName} />}
+      </View>
+
+      <Text category="p1">{value}</Text>
+    </View>
+  );
+};
+
 export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
+  const [user, setUser] = useState<DbUser | undefined>();
+
+  useEffect(
+    function fetchUser() {
+      getUser(activity.userId).then(setUser);
+    },
+    [activity.userId]
+  );
+
   const onJoinPress = () => console.log('Join pressed');
   const onViewPress = () => console.log('View pressed');
 
   const cardHeader = (
     <View>
       <View style={styles.header}>
-        <Text category="h3">{activity.title}</Text>
+        <View>
+          <Text category="h3">{activity.title}</Text>
+          {user && <Text category="s1">with {user.name}</Text>}
+        </View>
         <Text>
           {activity.participants.length}/{activity.limit} participants
         </Text>
@@ -44,11 +76,18 @@ export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
   return (
     <Card status="basic" header={cardHeader} footer={cardFooter}>
       <Text>{activity.description}</Text>
-      <Text>
-        Start date: {dayjs(activity.startDate).format('MMM DD, YYYY')}
-      </Text>
-      <Text>{activity.userId}</Text>
-      <Text>{activity.googleMapUrl}</Text>
+
+      <Details
+        label="Start date"
+        iconName="calendar"
+        value={dayjs(activity.startDate).format('MMM DD, YYYY')}
+      />
+
+      <Details
+        label="Google map"
+        iconName="map"
+        value={activity.googleMapUrl}
+      />
     </Card>
   );
 };
@@ -66,5 +105,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  icon: {
+    width: 16,
+    marginRight: 4,
+    marginLeft: 4,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  details: {
+    marginTop: 8,
   },
 });
