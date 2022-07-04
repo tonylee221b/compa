@@ -1,35 +1,23 @@
-import react, { Component } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React, { useState, useEffect } from "react";
+import * as eva from "@eva-design/eva";
+import { ApplicationProvider, Text, Layout } from "@ui-kitten/components";
 
-class MyComponent extends Component {
-  state = {
-    title: 'Welcome to WEB530',
-    btnTitle: 'GO',
-  };
+import Navbar from "./components/Navbar";
 
-  render() {
-    const { title, btnTitle } = this.state;
+const HomeScreen = () => {
+  return (
+    <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text category="h1">Home</Text>
+    </Layout>
+  );
+};
 
-    return (
-      <View style={styles.container}>
-        <Text>{title}</Text>
-        <Button title={btnTitle} />
-        <StatusBar style="auto" />
-      </View>
-    );
-  }
-}
+const App = () => {
+  return (
+    <ApplicationProvider {...eva} theme={eva.dark}>
+      <HomeScreen />
+    </ApplicationProvider>
+  );
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-export default function App() {
-  return <MyComponent />;
-}
+export default App;
