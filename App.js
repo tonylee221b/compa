@@ -9,6 +9,7 @@ import {
 } from '@ui-kitten/components';
 import NavContainer from './components/Navigation';
 import { init } from './init';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 const App = () => {
   const [ready, setReady] = useState(false);

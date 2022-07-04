@@ -1,5 +1,11 @@
 import { nanoid } from 'nanoid';
-import { addParticipant, createActivity, register } from './backend';
+import {
+  addParticipant,
+  createActivity,
+  leaveActivity,
+  login,
+  register,
+} from './backend';
 
 async function initUsers() {
   const userAndrew = await register({
@@ -59,4 +65,9 @@ export async function init() {
   await addParticipant(beer.id, userAndrew);
   await addParticipant(beer.id, userTony);
   await addParticipant(coffee.id, userThomas);
+
+  return login({
+    name: userAndrew.name,
+    password: userAndrew.password,
+  });
 }
