@@ -9,7 +9,6 @@ import {
 } from '@ui-kitten/components';
 import NavContainer from './components/Navigation';
 import { init } from './init';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 const App = () => {
   const [ready, setReady] = useState(false);
@@ -22,7 +21,7 @@ const App = () => {
     ready && (
       <>
         <IconRegistry icons={EvaIconsPack} />
-        <ApplicationProvider {...eva} theme={eva.dark}>
+        <ApplicationProvider {...eva} theme={eva.light}>
           <Layout style={styles.container}>
             <NavContainer />
           </Layout>
