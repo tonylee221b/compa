@@ -1,23 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import * as eva from "@eva-design/eva";
-import { ApplicationProvider, Text, Layout } from "@ui-kitten/components";
-
-import Navbar from "./components/Navbar";
-
-const HomeScreen = () => {
-  return (
-    <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text category="h1">Home</Text>
-    </Layout>
-  );
-};
+import { EvaIconsPack } from "@ui-kitten/eva-icons";
+import { StyleSheet } from "react-native";
+import {
+  Layout,
+  ApplicationProvider,
+  IconRegistry,
+} from "@ui-kitten/components";
+import NavContainer from "./components/Navigation";
 
 const App = () => {
   return (
-    <ApplicationProvider {...eva} theme={eva.dark}>
-      <HomeScreen />
-    </ApplicationProvider>
+    <>
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider {...eva} theme={eva.dark}>
+        <Layout style={styles.container}>
+          <NavContainer />
+        </Layout>
+      </ApplicationProvider>
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default App;
