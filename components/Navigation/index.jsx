@@ -1,8 +1,8 @@
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
-import Home from "../../screens/Home";
-import Post from "../../screens/Post";
-import PostDetail from "../../screens/PostDetail";
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import Home from '../../screens/Home';
+import Post from '../../screens/Post';
+import PostDetail from '../../screens/PostDetail';
 
 const Navigator = createStackNavigator(
   {
@@ -11,8 +11,8 @@ const Navigator = createStackNavigator(
     PostDetail: PostDetail,
   },
   {
-    initialRouteName: "Home",
-    headerMode: "none",
+    initialRouteName: 'Home',
+    headerMode: 'none',
   }
 );
 
