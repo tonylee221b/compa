@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Image, Button, StyleSheet } from "react-native";
-import { Layout } from "@ui-kitten/components";
-import Navbar from "../../components/Navbar";
-import { CreateActivityForm } from "../../components/CreateActivityForm";
+import React from 'react';
+import { View, Image, Button, StyleSheet } from 'react-native';
+import { Layout } from '@ui-kitten/components';
+import Navbar from '../../components/Navbar';
+import { CreateActivityForm } from '../../components/CreateActivityForm';
 
 const Home = ({ navigation }) => {
   return (
@@ -11,7 +11,7 @@ const Home = ({ navigation }) => {
       <View style={styles.logoContainer}>
         <Image
           style={styles.logo}
-          source={require("../../assets/compa-logo-white.png")}
+          source={require('../../assets/compa-logo-white.png')}
         />
         <CreateActivityForm />
       </View>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 150,
-    resizeMode: "contain",
+    resizeMode: 'contain',
   },
 });
 

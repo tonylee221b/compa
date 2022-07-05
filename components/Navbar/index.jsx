@@ -48,11 +48,26 @@ export const Navbar = () => {
   );
 
   return (
-    <TopNavigation
-      title={renderTitle}
-      accessoryRight={renderOverflowMenuAction}
-    />
+    <TabView
+      selectedIndex={index}
+      shouldLoadComponent={shouldLoadComp}
+      onSelect={(ind) => navigation.navigate(ind === 0 ? 'Home' : 'Post')}
+    >
+      <Tab title="HOME">
+        <Layout style={styles.tabContainer}></Layout>
+      </Tab>
+      <Tab title="POSTS">
+        <Layout style={styles.tabContainer}></Layout>
+      </Tab>
+    </TabView>
   );
 };
+
+const styles = StyleSheet.create({
+  tabContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default Navbar;
