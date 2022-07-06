@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
-import { Layout } from '@ui-kitten/components';
+import { Layout, Text, Input } from '@ui-kitten/components';
 
 const Home = () => {
+  const [value, setValue] = useState('');
+
   return (
     <Layout style={styles.container}>
       <View style={styles.logoContainer}>
@@ -12,25 +14,58 @@ const Home = () => {
         />
         <CreateActivityForm />
       </View>
+      <View style={styles.bodyContainer}>
+        <View style={styles.headingContainer}>
+          <Text category="s1" style={{ fontSize: 32 }}>
+            Find Your Compa!
+          </Text>
+        </View>
+        <View style={styles.searchContainer}>
+          <Text category="s1" style={{ fontSize: 20 }}>
+            Enter City / Town
+          </Text>
+          <Input
+            placeholder="Type City / Town"
+            value={value}
+            onChangeText={(nextVal) => setValue(nextVal)}
+            style={styles.searchBar}
+          />
+        </View>
+      </View>
     </Layout>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
+    paddingTop: 20,
     flex: 1,
     paddingHorizontal: 20,
   },
   logoContainer: {
     maxWidth: 150,
-    backgroundColor: 'white',
   },
   logo: {
-    width: 150,
+    width: 120,
     height: 50,
     resizeMode: 'contain',
-    backgroundColor: 'tomato',
+  },
+  bodyContainer: {
+    marginVertical: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headingContainer: {
+    marginBottom: 50,
+  },
+  searchContainer: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  searchBar: {
+    marginTop: 30,
+    width: '100%',
   },
 });
 
