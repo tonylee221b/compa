@@ -14,6 +14,8 @@ import {
 } from '@ui-kitten/components';
 import { getAllCities } from '../../backend/city-service';
 import dayjs from 'dayjs';
+import { PlacesAutocomplete } from '../PlacesAutocomplete';
+import { CitySelect } from '../CitySelect';
 
 export interface CreateActivityFormProps {}
 
@@ -26,10 +28,7 @@ const formValues = z.object({
     .string()
     .min(1, { message: 'Description is required' })
     .max(1000, { message: 'Description is too long' }),
-  googleMapUrl: z
-    .string()
-    .url({ message: 'Google Map URL is not valid' })
-    .optional(),
+  placeId: z.string().optional(),
   limit: z
     .string()
     .min(1, { message: 'Limit is required' })
@@ -43,17 +42,12 @@ const formValues = z.object({
 type FormValues = z.infer<typeof formValues>;
 
 export const CreateActivityForm = (props: CreateActivityFormProps) => {
-  const [cities, setCities] = useState<string[]>([]);
-  const [selectedCityIndex, setSelectedCityIndex] = React.useState(
-    new IndexPath(0)
-  );
-
   const form = useForm<FormValues>({
     resolver: zodResolver(formValues),
     defaultValues: {
       city: '',
       description: '',
-      googleMapUrl: '',
+      placeId: '',
       limit: '',
       startDate: '',
       title: '',
@@ -62,21 +56,7 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
   });
   const { errors } = form.formState;
 
-  useEffect(function fetchCities() {
-    getAllCities('canada', 'ontario').then((cities) => {
-      setCities(cities);
-    });
-  }, []);
-
-  useEffect(
-    function syncCityIndex() {
-      form.setValue('city', cities[selectedCityIndex.row]);
-    },
-    [selectedCityIndex, cities]
-  );
-
-  const onSubmit = form.handleSubmit(console.log);
-  const onSubmitPress = () => onSubmit();
+  const onSubmitPress = form.handleSubmit((data) => console.log(data));
 
   return (
     <View>
@@ -112,25 +92,8 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
       </View>
 
       <View style={styles.formGroup}>
-        <Controller
-          control={form.control}
-          name="city"
-          render={({ field }) => (
-            <Select
-              label="City"
-              value={field.value}
-              onBlur={field.onBlur}
-              selectedIndex={selectedCityIndex}
-              onSelect={(index) => {
-                setSelectedCityIndex(index as IndexPath);
-              }}
-            >
-              {cities.map((city) => (
-                <SelectItem key={city} title={city} />
-              ))}
-            </Select>
-          )}
-        />
+        <CitySelect controller={{ control: form.control, name: 'city' }} />
+
         <Text status="danger" appearance="hint">
           {errors.city?.message}
         </Text>
@@ -168,7 +131,22 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
         </Text>
       </View>
 
-      <Button onPress={onSubmitPress}>Create</Button>
+      <View style={styles.formGroup}>
+        <PlacesAutocomplete
+          label="Location"
+          controller={{
+            control: form.control,
+            name: 'placeId',
+          }}
+        />
+        <Text status="danger" appearance="hint">
+          {errors.placeId?.message}
+        </Text>
+      </View>
+
+      <View style={styles.formGroup}>
+        <Button onPress={onSubmitPress}>Create</Button>
+      </View>
     </View>
   );
 };
