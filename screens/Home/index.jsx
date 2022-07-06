@@ -1,38 +1,46 @@
 import React, { useState } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import {
+  View,
+  Image,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import { Layout, Text, Input } from '@ui-kitten/components';
 
 const Home = () => {
-  const [value, setValue] = useState('');
+  const [city, setCity] = useState('');
 
   return (
-    <Layout style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image
-          style={styles.logo}
-          source={require('../../assets/compa-logo-white.png')}
-        />
-        <CreateActivityForm />
-      </View>
-      <View style={styles.bodyContainer}>
-        <View style={styles.headingContainer}>
-          <Text category="s1" style={{ fontSize: 32 }}>
-            Find Your Compa!
-          </Text>
-        </View>
-        <View style={styles.searchContainer}>
-          <Text category="s1" style={{ fontSize: 20 }}>
-            Enter City / Town
-          </Text>
-          <Input
-            placeholder="Type City / Town"
-            value={value}
-            onChangeText={(nextVal) => setValue(nextVal)}
-            style={styles.searchBar}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <Layout style={styles.container}>
+        <View style={styles.logoContainer}>
+          <Image
+            style={styles.logo}
+            source={require('../../assets/compa-logo-white.png')}
           />
         </View>
-      </View>
-    </Layout>
+        <View style={styles.bodyContainer}>
+          <View style={styles.headingContainer}>
+            <Text category="s1" style={{ fontSize: 32 }}>
+              Find Your Compa!
+            </Text>
+          </View>
+          <View style={styles.searchContainer}>
+            <Text category="s1" style={{ fontSize: 20 }}>
+              Enter City / Town
+            </Text>
+            <Input
+              placeholder="Type City / Town"
+              value={city}
+              onChangeText={(cityName) => setCity(cityName)}
+              onBlur={() => Keyboard.dismiss()}
+              style={styles.searchBar}
+            />
+          </View>
+        </View>
+      </Layout>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -66,6 +74,7 @@ const styles = StyleSheet.create({
   searchBar: {
     marginTop: 30,
     width: '100%',
+    backgroundColor: 'white',
   },
 });
 
