@@ -1,40 +1,21 @@
-import React from "react";
-import { View, Button, StyleSheet } from "react-native";
-import { Layout, Text, Card } from "@ui-kitten/components";
-import Navbar from "../../components/Navbar";
-
-const postData = [
-  {
-    id: 1,
-    userId: "tony",
-    title: "Wanna grab a beer?",
-    content: "Who wants to grab a beer in downtown Toronto?",
-  },
-  {
-    id: 2,
-    userId: "thomas",
-    title: "Wanna go hiking?",
-    content: "Let's go to an adventure!",
-  },
-];
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { Layout } from '@ui-kitten/components';
+import Navbar from '../../components/Navbar';
+import { getActivities } from '../../backend';
+import { ActivityList } from '../../components/ActivityList';
 
 const Post = ({ navigation }) => {
+  const [activities, setActivities] = useState([]);
+
+  useEffect(function fetchActivities() {
+    getActivities('Toronto').then(setActivities);
+  }, []);
+
   return (
     <Layout style={styles.container}>
       <Navbar navigation={navigation} index={1} />
-      {postData.length > 0 &&
-        postData.map((data, _) => (
-          <Card
-            key={data.id}
-            style={styles.card}
-            onPress={() => navigation.navigate("PostDetail")}
-          >
-            <View>
-              <Text category="h5">{data.title}</Text>
-              <Text category="s1">{data.content}</Text>
-            </View>
-          </Card>
-        ))}
+      <ActivityList activities={activities} />
     </Layout>
   );
 };
