@@ -22,12 +22,12 @@ const Post = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
     flex: 1,
+    paddingTop: 50,
     paddingHorizontal: 20,
   },
   card: {
-    marginBottom: 30,
+    marginVertical: 10,
   },
 });
 

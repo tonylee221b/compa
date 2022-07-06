@@ -1,13 +1,10 @@
 import React from 'react';
-import { View, Image, Button, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import { Layout } from '@ui-kitten/components';
-import Navbar from '../../components/Navbar';
-import { CreateActivityForm } from '../../components/CreateActivityForm';
 
-const Home = ({ navigation }) => {
+const Home = () => {
   return (
     <Layout style={styles.container}>
-      <Navbar navigation={navigation} index={0} />
       <View style={styles.logoContainer}>
         <Image
           style={styles.logo}
@@ -26,11 +23,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   logoContainer: {
-    flex: 1,
+    maxWidth: 150,
+    backgroundColor: 'white',
   },
   logo: {
     width: 150,
+    height: 50,
     resizeMode: 'contain',
+    backgroundColor: 'tomato',
   },
 });
 
