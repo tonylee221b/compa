@@ -21,7 +21,7 @@ const App = () => {
     ready && (
       <>
         <IconRegistry icons={EvaIconsPack} />
-        <ApplicationProvider {...eva} theme={eva.light}>
+        <ApplicationProvider {...eva} theme={eva.dark}>
           <Layout style={styles.container}>
             <NavContainer />
           </Layout>
@@ -34,6 +34,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 50,
   },
 });
 

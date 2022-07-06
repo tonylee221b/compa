@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Button, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import {
   Layout,
   Icon,
@@ -30,7 +30,6 @@ const PostDetail = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
     flex: 1,
     paddingHorizontal: 20,
   },

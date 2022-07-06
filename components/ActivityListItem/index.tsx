@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { DbActivity, DbUser, getUser } from '../../backend';
+import { useNavigation } from '@react-navigation/native';
 
 export interface ActivityListItemProps {
   activity: DbActivity;
@@ -30,6 +31,7 @@ const Details = ({ label, value, iconName }: DetailsProps) => {
 
 export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
   const [user, setUser] = useState<DbUser | undefined>();
+  const navigation = useNavigation();
 
   useEffect(
     function fetchUser() {
@@ -39,7 +41,7 @@ export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
   );
 
   const onJoinPress = () => console.log('Join pressed');
-  const onViewPress = () => console.log('View pressed');
+  const onViewPress = () => navigation.navigate('PostDetail' as any);
 
   const cardHeader = (
     <View>
