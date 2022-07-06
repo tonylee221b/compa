@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Layout } from '@ui-kitten/components';
-import PostCard from '../../components/PostCard';
 import { getActivities } from '../../backend/activitiy-service';
+import { ActivityList } from '../../components/ActivityList';
 
 const Post = ({ navigation }) => {
   const [postData, setPostData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getActivities()
+    getActivities('Toronto')
       .then((data) => setPostData(data))
       .then(() => setIsLoading(false));
   }, []);
@@ -17,10 +17,7 @@ const Post = ({ navigation }) => {
   return (
     !isLoading && (
       <Layout style={styles.container}>
-        {postData.length > 0 &&
-          postData.map((data, _) => (
-            <PostCard navigation={navigation} data={data} key={data.id} />
-          ))}
+        <ActivityList activities={postData} />
       </Layout>
     )
   );
