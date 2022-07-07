@@ -38,16 +38,16 @@ const Home = ({ navigation }) => {
           />
         </Layout>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-          <View
+          <Layout
             onStartShouldSetResponder={() => true}
             style={styles.bodyContainer}
           >
-            <View style={styles.headingContainer}>
+            <Layout style={styles.headingContainer}>
               <Text category="s1" style={{ fontSize: 32 }}>
                 Find Your Compa!
               </Text>
-            </View>
-            <View style={styles.searchContainer}>
+            </Layout>
+            <Layout style={styles.searchContainer}>
               <Text category="s1" style={{ fontSize: 20 }}>
                 Enter City / Town
               </Text>
@@ -76,8 +76,8 @@ const Home = ({ navigation }) => {
                   </Button>
                 </Card>
               </Modal>
-            </View>
-          </View>
+            </Layout>
+          </Layout>
         </ScrollView>
       </Layout>
     </TouchableWithoutFeedback>

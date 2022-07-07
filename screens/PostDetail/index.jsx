@@ -45,13 +45,13 @@ const PostDetail = ({ navigation, route }) => {
   return (
     <Layout style={styles.container}>
       <BackNavigation navigation={navigation} />
-      <View style={styles.titleContainer}>
+      <Layout style={styles.titleContainer}>
         <Text style={styles.title}>{activity.title}</Text>
         <Text style={styles.numberOfPeople}>
           {' '}
           {activity.participants.length}/{activity.limit} Participants
         </Text>
-      </View>
+      </Layout>
 
       <Text style={styles.author}>Author: {user.name}</Text>
 
@@ -74,11 +74,11 @@ const PostDetail = ({ navigation, route }) => {
       </Pressable>
 
       <Text style={styles.description}>People who joined: </Text>
-      <View>
+      <Layout>
         {activity.participants.map((v, i) => (
           <Text key={i.toString()}>{v.name}</Text>
         ))}
-      </View>
+      </Layout>
     </Layout>
   );
 };
