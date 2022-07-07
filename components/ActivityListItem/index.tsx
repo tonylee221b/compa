@@ -41,7 +41,7 @@ export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
   );
 
   const onJoinPress = () => console.log('Join pressed');
-  const onViewPress = () => navigation.navigate('PostDetail' as any);
+  const onViewPress = () => navigation.navigate('PostDetail' as any, {activity});
 
   const cardHeader = (
     <View>
