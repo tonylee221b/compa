@@ -16,6 +16,8 @@ import { getAllCities } from '../../backend/city-service';
 import dayjs from 'dayjs';
 import { PlacesAutocomplete } from '../PlacesAutocomplete';
 import { CitySelect } from '../CitySelect';
+import { useAuthUserContext } from '../../context/AuthUserContext';
+import { createActivity } from '../../backend';
 
 export interface CreateActivityFormProps {}
 
@@ -31,9 +33,9 @@ const formValues = z.object({
   placeId: z.string().optional(),
   limit: z
     .string()
-    .min(1, { message: 'Limit is required' })
-    .refine((val) => !isNaN(+val), { message: 'Only accept number' })
-    .refine((val) => +val >= 1, { message: 'Limit must be greater than 1' }),
+    .transform((value) => +value)
+    .refine((val) => !isNaN(val), { message: 'Only accept number' })
+    .refine((val) => val >= 1, { message: 'Limit must be greater than 1' }),
   userId: z.string().min(1, { message: 'User ID is required' }),
   startDate: z.string().min(1, { message: 'Start Date is required' }),
   city: z.string().min(1, { message: 'City is required' }),
@@ -42,13 +44,15 @@ const formValues = z.object({
 type FormValues = z.infer<typeof formValues>;
 
 export const CreateActivityForm = (props: CreateActivityFormProps) => {
+  const { authUser } = useAuthUserContext();
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formValues),
     defaultValues: {
       city: '',
       description: '',
       placeId: '',
-      limit: '',
+      limit: 0,
       startDate: '',
       title: '',
       userId: '',
@@ -56,11 +60,27 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
   });
   const { errors } = form.formState;
 
-  const onSubmitPress = form.handleSubmit((data) => console.log(data));
+  useEffect(() => {
+    form.setValue('userId', authUser?.id ?? '');
+  }, [authUser]);
+
+  const onSubmitPress = form.handleSubmit((data) => createActivity(data));
 
   return (
     <View>
       <Text category="h3">Create activity</Text>
+      <View style={styles.formGroup}>
+        <PlacesAutocomplete
+          label="Location"
+          controller={{
+            control: form.control,
+            name: 'placeId',
+          }}
+        />
+        <Text status="danger" appearance="hint">
+          {errors.placeId?.message}
+        </Text>
+      </View>
 
       <View style={styles.formGroup}>
         <Controller
@@ -122,25 +142,16 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
         <Controller
           control={form.control}
           name="limit"
-          render={({ field }) => (
-            <Input {...field} label="Participant's limit" />
+          render={({ field: { value, ...field } }) => (
+            <Input
+              value={value.toString()}
+              {...field}
+              label="Participant's limit"
+            />
           )}
         />
         <Text status="danger" appearance="hint">
           {errors.limit?.message}
-        </Text>
-      </View>
-
-      <View style={styles.formGroup}>
-        <PlacesAutocomplete
-          label="Location"
-          controller={{
-            control: form.control,
-            name: 'placeId',
-          }}
-        />
-        <Text status="danger" appearance="hint">
-          {errors.placeId?.message}
         </Text>
       </View>
 

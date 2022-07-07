@@ -85,11 +85,9 @@ export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
         value={dayjs(activity.startDate).format('MMM DD, YYYY')}
       />
 
-      <Details
-        label="Google map"
-        iconName="map"
-        value={activity.googleMapUrl}
-      />
+      {activity.placeId && (
+        <Details label="Google map" iconName="map" value={activity.placeId} />
+      )}
     </Card>
   );
 };

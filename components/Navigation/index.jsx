@@ -1,10 +1,11 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { TabBar, Tab } from "@ui-kitten/components";
-import Home from "../../screens/Home";
-import Post from "../../screens/Post";
-import PostDetail from "../../screens/PostDetail";
+import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { TabBar, Tab } from '@ui-kitten/components';
+import Home from '../../screens/Home';
+import Post from '../../screens/Post';
+import PostDetail from '../../screens/PostDetail';
+import { CreateActivityForm } from '../CreateActivityForm';
 
 const { Navigator, Screen } = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -14,6 +15,7 @@ const MyStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Posts" component={Post} />
       <Stack.Screen name="PostDetail" component={PostDetail} />
+      <Stack.Screen name="CreateActivity" component={CreateActivityForm} />
     </Stack.Navigator>
   );
 };

@@ -64,9 +64,4 @@ export async function init() {
   await addParticipant(beer.id, userAndrew);
   await addParticipant(beer.id, userTony);
   await addParticipant(coffee.id, userThomas);
-
-  return login({
-    name: userAndrew.name,
-    password: userAndrew.password,
-  });
 }

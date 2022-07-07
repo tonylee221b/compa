@@ -1,11 +1,11 @@
-import dayjs from "dayjs";
-import uuid from "react-native-uuid";
-import { Collection } from "./db";
-import { DbUser } from "./user-service";
+import dayjs from 'dayjs';
+import uuid from 'react-native-uuid';
+import { Collection } from './db';
+import { DbUser } from './user-service';
 
-const activityDb = new Collection<DbActivity>("activity");
+const activityDb = new Collection<DbActivity>('activity');
 
-export type Participant = Pick<DbUser, "id" | "name">;
+export type Participant = Pick<DbUser, 'id' | 'name'>;
 
 export interface DbActivity {
   id: string;
@@ -17,20 +17,20 @@ export interface DbActivity {
   startDate: string;
   createdAt: string;
   updatedAt: string;
-  googleMapUrl?: string;
+  placeId?: string;
   city: string;
 }
 
 export async function createActivity(
   data: Pick<
     DbActivity,
-    | "title"
-    | "description"
-    | "googleMapUrl"
-    | "limit"
-    | "userId"
-    | "startDate"
-    | "city"
+    | 'title'
+    | 'description'
+    | 'placeId'
+    | 'limit'
+    | 'userId'
+    | 'startDate'
+    | 'city'
   >
 ) {
   const activity: DbActivity = {
@@ -71,17 +71,17 @@ export async function getJoinedActivities(
 
 export async function addParticipant(
   activityId: string,
-  participant: DbActivity["participants"][number]
+  participant: DbActivity['participants'][number]
 ) {
   const activity = await getActivity(activityId);
   if (!activity) {
-    throw new Error("Activity not found");
+    throw new Error('Activity not found');
   }
   if (activity.userId === participant.id) {
     throw new Error("You can't join your own activity");
   }
   if (await isInActivity(activity.id, participant.id)) {
-    throw new Error("User already joined");
+    throw new Error('User already joined');
   }
   activityDb.update(activityId, {
     participants: [...activity.participants, participant],
@@ -91,7 +91,7 @@ export async function addParticipant(
 export async function leaveActivity(activityId: string, userId: string) {
   const activity = await getActivity(activityId);
   if (!activity) {
-    throw new Error("Activity not found");
+    throw new Error('Activity not found');
   }
   activityDb.update(activityId, {
     participants: activity.participants.filter((p) => p.id !== userId),
@@ -104,7 +104,7 @@ export async function isInActivity(
 ): Promise<boolean> {
   const activity = await getActivity(activityId);
   if (!activity) {
-    throw new Error("Activity not found");
+    throw new Error('Activity not found');
   }
   return activity.participants.some((p) => p.id === userId);
 }
