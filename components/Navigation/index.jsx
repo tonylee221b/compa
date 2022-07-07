@@ -8,7 +8,7 @@ import PostDetail from '../../screens/PostDetail';
 import { CreateActivityForm } from '../CreateActivityForm';
 import { MyActivitiesScreen } from '../../screens/MyActivitiesScreen';
 
-const { Navigator, Screen } = createMaterialTopTabNavigator();
+const TabNav = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const MyStack = () => {
@@ -16,7 +16,6 @@ const MyStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Posts" component={Post} />
       <Stack.Screen name="PostDetail" component={PostDetail} />
-      <Stack.Screen name="CreateActivity" component={CreateActivityForm} />
     </Stack.Navigator>
   );
 };
@@ -35,15 +34,16 @@ const TopTabBar = ({ navigation, state }) => (
 const NavContainer = () => {
   return (
     <NavigationContainer>
-      <Navigator
+      <TabNav.Navigator
         screenOptions={{ headerShown: false }}
         tabBar={(props) => <TopTabBar {...props} />}
         initialRouteName="Home"
       >
-        <Screen name="Home" component={Home} />
-        <Screen name="Post" component={MyStack} />
-        <Screen name="MyActivity" component={MyActivitiesScreen} />
-      </Navigator>
+        <TabNav.Screen name="Home" component={Home} />
+        <TabNav.Screen name="Post" component={MyStack} />
+        <TabNav.Screen name="MyActivities" component={MyActivitiesScreen} />
+        <TabNav.Screen name="CreateActivity" component={CreateActivityForm} />
+      </TabNav.Navigator>
     </NavigationContainer>
   );
 };
