@@ -4,7 +4,7 @@ import { Button, Icon, Layout } from '@ui-kitten/components';
 import React, { useCallback, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { DbActivity, getJoinedActivities } from '../../backend';
-import { ActivityList } from '../../components/ActivityList';
+import { JoinedActivityList } from '../../components/JoinedActivityList';
 import { useAuthUserContext } from '../../context/AuthUserContext';
 
 export interface MyActivitiesScreenProps
@@ -25,6 +25,9 @@ export const MyActivitiesScreen = ({ navigation }: MyActivitiesScreenProps) => {
     )
   );
 
+  const onLeavePress = (id: string) =>
+    setActivities((prev) => prev.filter((a) => a.id !== id));
+
   return (
     <Layout style={styles.container}>
       <Button
@@ -35,7 +38,7 @@ export const MyActivitiesScreen = ({ navigation }: MyActivitiesScreenProps) => {
       </Button>
 
       <Layout style={{ marginTop: 16 }}>
-        <ActivityList activities={activities} />
+        <JoinedActivityList onLeave={onLeavePress} activities={activities} />
       </Layout>
     </Layout>
   );

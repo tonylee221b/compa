@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import {
   Button,
   Datepicker,
@@ -68,8 +68,12 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
   }, [authUser]);
 
   const onSubmitPress = form.handleSubmit(async (data) => {
-    await createActivity(data);
-    props.navigation.navigate('MyActivities');
+    try {
+      await createActivity(data);
+      props.navigation.navigate('MyActivities');
+    } catch (error) {
+      Alert.alert('Error', (error as Error).message);
+    }
   });
 
   return (

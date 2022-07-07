@@ -6,6 +6,7 @@ import {
   addParticipant,
   DbActivity,
   DbUser,
+  deleteActivity,
   getUser,
   isInActivity,
   leaveActivity,
@@ -13,9 +14,9 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useAuthUserContext } from '../../context/AuthUserContext';
 
-export interface ActivityListItemProps {
+export interface JoinedActivityListItemProps {
   activity: DbActivity;
-  onJoin?(id: string): void;
+  onLeave?(id: string): void;
 }
 
 interface DetailsProps {
@@ -38,14 +39,14 @@ const Details = ({ label, value, iconName }: DetailsProps) => {
   );
 };
 
-export const ActivityListItem = ({
+export const JoinedActivityListItem = ({
   activity,
-  onJoin,
-}: ActivityListItemProps) => {
+  onLeave,
+}: JoinedActivityListItemProps) => {
   const [user, setUser] = useState<DbUser | undefined>();
   const navigation = useNavigation<any>();
   const { authUser } = useAuthUserContext();
-
+  const isHost = activity.userId === authUser?.id;
   useEffect(
     function fetchUser() {
       getUser(activity.userId).then(setUser);
@@ -53,15 +54,16 @@ export const ActivityListItem = ({
     [activity.userId]
   );
 
-  const onJoinPress = async () => {
+  const onLeavePress = async () => {
     if (!authUser) return;
     try {
-      await addParticipant(activity.id, authUser);
-      onJoin?.(activity.id);
+      isHost
+        ? await deleteActivity(activity.id)
+        : await leaveActivity(activity.id, authUser.id);
+      onLeave?.(activity.id);
     } catch (error) {
       Alert.alert('Error', (error as Error).message);
     }
-    onJoin?.(activity.id);
   };
   const onViewPress = () => navigation.navigate('PostDetail', { activity });
 
@@ -90,8 +92,8 @@ export const ActivityListItem = ({
           View
         </Button>
 
-        <Button onPress={onJoinPress} style={styles.button} size="small">
-          Join
+        <Button onPress={onLeavePress} style={styles.button} size="small">
+          {isHost ? 'Delete' : 'Leave'}
         </Button>
       </Layout>
     </Layout>

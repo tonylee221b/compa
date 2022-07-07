@@ -48,13 +48,18 @@ export async function getActivity(id: string): Promise<DbActivity | undefined> {
   return activityDb.get(id);
 }
 
-export async function getActivities(city: string): Promise<DbActivity[]> {
+export async function getActivities(
+  city: string,
+  userId: string
+): Promise<DbActivity[]> {
+  const joinedActivities = await getJoinedActivities(userId);
   return activityDb
     .getAll()
     .filter(
       (activity) =>
         activity.city.toLowerCase() === city.toLowerCase() &&
-        dayjs(activity.startDate).isAfter(dayjs())
+        dayjs(activity.startDate).isAfter(dayjs()) &&
+        !joinedActivities.map((a) => a.id).includes(activity.id)
     );
 }
 
@@ -84,6 +89,9 @@ export async function addParticipant(
   if (await isInActivity(activity.id, participant.id)) {
     throw new Error('User already joined');
   }
+  if (activity.participants.length >= activity.limit) {
+    throw new Error('Activity is full');
+  }
   activityDb.update(activityId, {
     participants: [...activity.participants, participant],
   });
@@ -93,6 +101,9 @@ export async function leaveActivity(activityId: string, userId: string) {
   const activity = await getActivity(activityId);
   if (!activity) {
     throw new Error('Activity not found');
+  }
+  if (activity.userId === userId) {
+    throw new Error("You can't leave your own activity");
   }
   activityDb.update(activityId, {
     participants: activity.participants.filter((p) => p.id !== userId),
@@ -108,4 +119,8 @@ export async function isInActivity(
     throw new Error('Activity not found');
   }
   return activity.participants.some((p) => p.id === userId);
+}
+
+export async function deleteActivity(activityId: string): Promise<void> {
+  activityDb.delete(activityId);
 }

@@ -2,19 +2,23 @@ import { Divider, List } from '@ui-kitten/components';
 import React from 'react';
 import { DbActivity } from '../../backend';
 import { ActivityListItem } from '../ActivityListItem';
+import { JoinedActivityListItem } from '../JoinedActivityListItem';
 
-export interface ActivityListProps {
+export interface JoinedActivityListProps {
   activities: DbActivity[];
-  onJoin?(id: string): void;
+  onLeave?(id: string): void;
 }
 
-export const ActivityList = ({ activities, onJoin }: ActivityListProps) => {
+export const JoinedActivityList = ({
+  activities,
+  onLeave,
+}: JoinedActivityListProps) => {
   return (
     <List
       ItemSeparatorComponent={Divider}
       data={activities}
       renderItem={({ item }) => (
-        <ActivityListItem onJoin={onJoin} activity={item} />
+        <JoinedActivityListItem onLeave={onLeave} activity={item} />
       )}
     />
   );

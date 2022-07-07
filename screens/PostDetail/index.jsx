@@ -28,40 +28,38 @@ const BackNavigation = ({ navigation }) => (
 );
 
 const PostDetail = ({ navigation, route }) => {
-  const {activity} = route.params;
-  console.log(route.params);
+  const { activity } = route.params;
 
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    getUser(activity.userId)
-      .then((user) => setUser(user))
+    getUser(activity.userId).then((user) => setUser(user));
   }, [activity.userId]);
-
 
   const OnPressJoin = function () {
     alert('You have now joined the activity');
   };
 
-  if(!user) return <Text>Loading...</Text>
+  if (!user) return <Text>Loading...</Text>;
 
   return (
     <Layout style={styles.container}>
       <BackNavigation navigation={navigation} />
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{activity.title}</Text>
-        <Text style={styles.numberOfPeople}> {activity.participants.length}/{activity.limit} Participants</Text>
+        <Text style={styles.numberOfPeople}>
+          {' '}
+          {activity.participants.length}/{activity.limit} Participants
+        </Text>
       </View>
-     
+
       <Text style={styles.author}>Author: {user.name}</Text>
 
       <Text style={styles.date}>Date: {activity.startDate}</Text>
 
       <Text>Description of activity:</Text>
 
-      <Text style={styles.description}>
-      {activity.description}
-      </Text>
+      <Text style={styles.description}>{activity.description}</Text>
 
       <Text style={styles.address}>
         where: <Text>{activity.city}</Text>
@@ -77,13 +75,9 @@ const PostDetail = ({ navigation, route }) => {
 
       <Text style={styles.description}>People who joined: </Text>
       <View>
-      {activity.participants.map(
-          (v, i) => (
-            <Text key={i.toString()}>
-              {v.name}
-            </Text>
-          )
-      )}
+        {activity.participants.map((v, i) => (
+          <Text key={i.toString()}>{v.name}</Text>
+        ))}
       </View>
     </Layout>
   );
@@ -146,7 +140,7 @@ const styles = StyleSheet.create({
   numberOfPeople: {
     paddingLeft: 10,
     paddingTop: 10,
-    alignItems: 'right',
+    alignItems: 'flex-start',
   },
   // mapView:{
   //   alignSelf: "stretch",
