@@ -6,6 +6,7 @@ import Home from '../../screens/Home';
 import Post from '../../screens/Post';
 import PostDetail from '../../screens/PostDetail';
 import { CreateActivityForm } from '../CreateActivityForm';
+import { MyActivitiesScreen } from '../../screens/MyActivitiesScreen';
 
 const { Navigator, Screen } = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -27,6 +28,7 @@ const TopTabBar = ({ navigation, state }) => (
   >
     <Tab title="Home" />
     <Tab title="Post" />
+    <Tab title="My Activities" />
   </TabBar>
 );
 
@@ -40,6 +42,7 @@ const NavContainer = () => {
       >
         <Screen name="Home" component={Home} />
         <Screen name="Post" component={MyStack} />
+        <Screen name="MyActivity" component={MyActivitiesScreen} />
       </Navigator>
     </NavigationContainer>
   );

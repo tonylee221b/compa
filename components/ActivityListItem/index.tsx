@@ -1,4 +1,4 @@
-import { Button, Card, Icon, Text } from '@ui-kitten/components';
+import { Button, Card, Icon, Layout, Text } from '@ui-kitten/components';
 import dayjs from 'dayjs';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -18,20 +18,20 @@ interface DetailsProps {
 
 const Details = ({ label, value, iconName }: DetailsProps) => {
   return (
-    <View style={styles.details}>
-      <View style={styles.row}>
+    <Layout style={styles.details}>
+      <Layout style={styles.row}>
         <Text category="s1">{label}</Text>
         {iconName && <Icon style={styles.icon} name={iconName} />}
-      </View>
+      </Layout>
 
       <Text category="p1">{value}</Text>
-    </View>
+    </Layout>
   );
 };
 
 export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
   const [user, setUser] = useState<DbUser | undefined>();
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
   useEffect(
     function fetchUser() {
@@ -41,24 +41,24 @@ export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
   );
 
   const onJoinPress = () => console.log('Join pressed');
-  const onViewPress = () => navigation.navigate('PostDetail' as any, {activity});
+  const onViewPress = () => navigation.navigate('PostDetail', { activity });
 
   const cardHeader = (
-    <View>
-      <View style={styles.header}>
-        <View>
+    <Layout>
+      <Layout style={styles.header}>
+        <Layout>
           <Text category="h3">{activity.title}</Text>
           {user && <Text category="s1">with {user.name}</Text>}
-        </View>
+        </Layout>
         <Text>
           {activity.participants.length}/{activity.limit} participants
         </Text>
-      </View>
-    </View>
+      </Layout>
+    </Layout>
   );
   const cardFooter = (
-    <View>
-      <View style={styles.buttons}>
+    <Layout>
+      <Layout style={styles.buttons}>
         <Button
           onPress={onViewPress}
           style={styles.button}
@@ -71,8 +71,8 @@ export const ActivityListItem = ({ activity }: ActivityListItemProps) => {
         <Button onPress={onJoinPress} style={styles.button} size="small">
           Join
         </Button>
-      </View>
-    </View>
+      </Layout>
+    </Layout>
   );
 
   return (
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     width: 16,
     marginRight: 4,
     marginLeft: 4,
+    fill: 'white',
   },
   row: {
     flexDirection: 'row',

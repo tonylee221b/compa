@@ -31,12 +31,12 @@ const Home = ({ navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <Layout style={styles.container}>
-        <View style={styles.logoContainer}>
+        <Layout style={styles.logoContainer}>
           <Image
             style={styles.logo}
             source={require('../../assets/compa-logo-white.png')}
           />
-        </View>
+        </Layout>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
           <View
             onStartShouldSetResponder={() => true}

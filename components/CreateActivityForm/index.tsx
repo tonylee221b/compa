@@ -8,6 +8,7 @@ import {
   Datepicker,
   IndexPath,
   Input,
+  Layout,
   Select,
   SelectItem,
   Text,
@@ -18,8 +19,10 @@ import { PlacesAutocomplete } from '../PlacesAutocomplete';
 import { CitySelect } from '../CitySelect';
 import { useAuthUserContext } from '../../context/AuthUserContext';
 import { createActivity } from '../../backend';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export interface CreateActivityFormProps {}
+export interface CreateActivityFormProps
+  extends NativeStackScreenProps<any, any> {}
 
 const formValues = z.object({
   title: z
@@ -64,12 +67,15 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
     form.setValue('userId', authUser?.id ?? '');
   }, [authUser]);
 
-  const onSubmitPress = form.handleSubmit((data) => createActivity(data));
+  const onSubmitPress = form.handleSubmit(async (data) => {
+    await createActivity(data);
+    props.navigation.navigate('MyActivities');
+  });
 
   return (
-    <View>
+    <Layout style={styles.container}>
       <Text category="h3">Create activity</Text>
-      <View style={styles.formGroup}>
+      <Layout style={styles.formGroup}>
         <PlacesAutocomplete
           label="Location"
           controller={{
@@ -80,9 +86,9 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
         <Text status="danger" appearance="hint">
           {errors.placeId?.message}
         </Text>
-      </View>
+      </Layout>
 
-      <View style={styles.formGroup}>
+      <Layout style={styles.formGroup}>
         <Controller
           control={form.control}
           name="title"
@@ -91,9 +97,9 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
         <Text status="danger" appearance="hint">
           {errors.title?.message}
         </Text>
-      </View>
+      </Layout>
 
-      <View style={styles.formGroup}>
+      <Layout style={styles.formGroup}>
         <Controller
           control={form.control}
           name="description"
@@ -109,17 +115,17 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
         <Text status="danger" appearance="hint">
           {errors.description?.message}
         </Text>
-      </View>
+      </Layout>
 
-      <View style={styles.formGroup}>
+      <Layout style={styles.formGroup}>
         <CitySelect controller={{ control: form.control, name: 'city' }} />
 
         <Text status="danger" appearance="hint">
           {errors.city?.message}
         </Text>
-      </View>
+      </Layout>
 
-      <View style={styles.formGroup}>
+      <Layout style={styles.formGroup}>
         <Controller
           control={form.control}
           name="startDate"
@@ -136,9 +142,9 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
         <Text status="danger" appearance="hint">
           {errors.startDate?.message}
         </Text>
-      </View>
+      </Layout>
 
-      <View style={styles.formGroup}>
+      <Layout style={styles.formGroup}>
         <Controller
           control={form.control}
           name="limit"
@@ -153,17 +159,21 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
         <Text status="danger" appearance="hint">
           {errors.limit?.message}
         </Text>
-      </View>
+      </Layout>
 
-      <View style={styles.formGroup}>
+      <Layout style={styles.formGroup}>
         <Button onPress={onSubmitPress}>Create</Button>
-      </View>
-    </View>
+      </Layout>
+    </Layout>
   );
 };
 
 const styles = StyleSheet.create({
   formGroup: {
     marginTop: 16,
+  },
+  container: {
+    flex: 1,
+    padding: 16,
   },
 });

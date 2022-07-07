@@ -53,7 +53,8 @@ export async function getActivities(city: string): Promise<DbActivity[]> {
     .getAll()
     .filter(
       (activity) =>
-        activity.city === city && dayjs(activity.startDate).isAfter(dayjs())
+        activity.city.toLowerCase() === city.toLowerCase() &&
+        dayjs(activity.startDate).isAfter(dayjs())
     );
 }
 
