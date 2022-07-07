@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { Layout } from "@ui-kitten/components";
+import PropTypes from "prop-types";
 import { getActivities } from "../../backend/activitiy-service";
 import { ActivityList } from "../../components/ActivityList";
 
@@ -39,5 +40,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
+
+Post.propTypes = {
+  route: PropTypes.any,
+};
 
 export default Post;
