@@ -1,10 +1,10 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { TabBar, Tab } from '@ui-kitten/components';
-import Home from '../../screens/Home';
-import Post from '../../screens/Post';
-import PostDetail from '../../screens/PostDetail';
+import { NavigationContainer } from "@react-navigation/native";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { TabBar, Tab } from "@ui-kitten/components";
+import Home from "../../screens/Home";
+import Post from "../../screens/Post";
+import PostDetail from "../../screens/PostDetail";
 
 const { Navigator, Screen } = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -34,6 +34,7 @@ const NavContainer = () => {
       <Navigator
         screenOptions={{ headerShown: false }}
         tabBar={(props) => <TopTabBar {...props} />}
+        initialRouteName="Home"
       >
         <Screen name="Home" component={Home} />
         <Screen name="Post" component={MyStack} />

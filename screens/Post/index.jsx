@@ -1,18 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { Layout } from '@ui-kitten/components';
-import { getActivities } from '../../backend/activitiy-service';
-import { ActivityList } from '../../components/ActivityList';
+import React, { useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { Layout } from "@ui-kitten/components";
+import { getActivities } from "../../backend/activitiy-service";
+import { ActivityList } from "../../components/ActivityList";
 
-const Post = ({ navigation }) => {
+const Post = ({ navigation, route }) => {
+  const city = route?.params?.city ?? "Toronto";
   const [postData, setPostData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    getActivities('Toronto')
-      .then((data) => setPostData(data))
-      .then(() => setIsLoading(false));
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getActivities(city)
+        .then((data) => {
+          setPostData(data);
+        })
+        .then(() => setIsLoading(false));
+    }, [city])
+  );
 
   return (
     !isLoading && (
