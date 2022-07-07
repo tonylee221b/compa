@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { DbActivity, DbUser, getUser } from '../../backend';
 import {
   View,
   Button,
@@ -26,39 +27,64 @@ const BackNavigation = ({ navigation }) => (
   />
 );
 
-const PostDetail = ({ navigation }) => {
+const PostDetail = ({ navigation, route }) => {
+  const {activity} = route.params;
+  console.log(route.params);
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    getUser(activity.userId)
+      .then((user) => setUser(user))
+  }, [activity.userId]);
+
+
   const OnPressJoin = function () {
     alert('You have now joined the activity');
   };
+
+  if(!user) return <Text>Loading...</Text>
 
   return (
     <Layout style={styles.container}>
       <BackNavigation navigation={navigation} />
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Lets grab a beer</Text>
-        <Text style={styles.numberOfPeople}> 2/5 </Text>
+        <Text style={styles.title}>{activity.title}</Text>
+        <Text style={styles.numberOfPeople}> {activity.participants.length}/{activity.limit} Participants</Text>
       </View>
-      <Text style={styles.author}>Author: Tony</Text>
-      <Text style={styles.date}>Date: 22 July, 2022</Text>
+     
+      <Text style={styles.author}>Author: {user.name}</Text>
+
+      <Text style={styles.date}>Date: {activity.startDate}</Text>
+
       <Text>Description of activity:</Text>
+
       <Text style={styles.description}>
-        I've had too much coffee, So i would like to go grab a beer. You don't
-        need to buy an alcoholic drink, I just want to hang out.
+      {activity.description}
       </Text>
+
       <Text style={styles.address}>
-        where: <Text>22 Sucha Street</Text>
+        where: <Text>{activity.city}</Text>
       </Text>
+
       <Text style={styles.contact}>
         Contact: <Text> facebook </Text>{' '}
       </Text>
-      <Text style={styles.link}>
-        Link: <Text>www.mywebsite.com</Text>{' '}
-      </Text>
+
       <Pressable style={styles.joinBotton} onPress={OnPressJoin}>
         <Text style={styles.bottonText}>Join</Text>
       </Pressable>
 
-      <Text style={styles.description}>People who joined:</Text>
+      <Text style={styles.description}>People who joined: </Text>
+      <View>
+      {activity.participants.map(
+          (v, i) => (
+            <Text key={i.toString()}>
+              {v.name}
+            </Text>
+          )
+      )}
+      </View>
     </Layout>
   );
 };
@@ -119,6 +145,8 @@ const styles = StyleSheet.create({
   },
   numberOfPeople: {
     paddingLeft: 10,
+    paddingTop: 10,
+    alignItems: 'right',
   },
   // mapView:{
   //   alignSelf: "stretch",
