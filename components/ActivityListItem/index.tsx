@@ -61,7 +61,6 @@ export const ActivityListItem = ({
     } catch (error) {
       Alert.alert('Error', (error as Error).message);
     }
-    onJoin?.(activity.id);
   };
   const onViewPress = () => navigation.navigate('PostDetail', { activity });
 

@@ -45,7 +45,7 @@ export async function init() {
     city: 'Toronto',
     description: "Let's go cafe",
     placeId: 'https://goo.gl/maps/wXm7SdkH14ji8pkJA',
-    limit: 20,
+    limit: 1,
     startDate: '2022-08-01',
     title: 'Coffee',
     userId: userTony.id,
