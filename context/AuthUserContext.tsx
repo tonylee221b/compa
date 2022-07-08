@@ -22,7 +22,7 @@ export const AuthUserProvider = (props: AuthUserProviderProps) => {
 
   useEffect(function auth() {
     login({
-      name: 'Andrew',
+      name: 'Thomas',
       password: 'Abcd@1234',
     })
       .then(setAuthUser)
