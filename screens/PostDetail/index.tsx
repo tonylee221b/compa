@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { addParticipant, DbActivity, DbUser, getUser } from '../../backend';
+import {
+  addParticipant,
+  DbActivity,
+  DbUser,
+  getUser,
+  isInActivity,
+  leaveActivity,
+} from '../../backend';
 import { Alert, StyleSheet } from 'react-native';
 //import {MapView} from "react-native-maps";
 import {
@@ -28,6 +35,18 @@ const PostDetail = ({ navigation, route }: PostDetailProps) => {
   const { authUser } = useAuthUserContext();
   const [place, setPlace] = useState<Place | undefined>();
   const [user, setUser] = useState<DbUser | undefined>();
+  const [inActivity, setInActivity] = useState(false);
+
+  useEffect(
+    function checkParticipation() {
+      if (authUser?.id) {
+        isInActivity(activity.id, authUser.id)
+          .then(setInActivity)
+          .catch((err) => Alert.alert('Error', err.message));
+      }
+    },
+    [activity.id, authUser?.id]
+  );
 
   useEffect(() => {
     getUser(activity.userId)
@@ -45,12 +64,14 @@ const PostDetail = ({ navigation, route }: PostDetailProps) => {
 
   const onPressJoin = async () => {
     if (!authUser) {
-      Alert.alert('Error', 'You must be logged in to join an activity');
+      Alert.alert('Error', 'You must be logged in to perform this operation');
       return;
     }
 
     try {
-      await addParticipant(activity.id, authUser);
+      inActivity
+        ? await leaveActivity(activity.id, authUser.id)
+        : await addParticipant(activity.id, authUser);
       navigation.navigate('MyActivities');
     } catch (error) {
       Alert.alert('Error', (error as Error).message);
@@ -105,8 +126,12 @@ const PostDetail = ({ navigation, route }: PostDetailProps) => {
             </Button>
           )}
           {activity.userId !== authUser?.id && (
-            <Button onPress={onPressJoin} style={{ marginTop: 8 }}>
-              Join
+            <Button
+              status={inActivity ? 'danger' : 'primary'}
+              onPress={onPressJoin}
+              style={{ marginTop: 8 }}
+            >
+              {inActivity ? 'Leave' : 'Join'}
             </Button>
           )}
         </Layout>

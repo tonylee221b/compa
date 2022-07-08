@@ -104,7 +104,12 @@ export const JoinedActivityListItem = ({
           View
         </Button>
 
-        <Button onPress={onLeavePress} style={styles.button} size="small">
+        <Button
+          onPress={onLeavePress}
+          status="danger"
+          style={styles.button}
+          size="small"
+        >
           {isHost ? 'Delete' : 'Leave'}
         </Button>
       </Layout>
