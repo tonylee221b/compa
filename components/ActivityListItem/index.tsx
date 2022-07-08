@@ -1,7 +1,7 @@
 import { Button, Card, Icon, Layout, Text } from '@ui-kitten/components';
 import dayjs from 'dayjs';
 import React, { ReactNode, useEffect, useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, Image, StyleSheet, View } from 'react-native';
 import {
   addParticipant,
   DbActivity,
@@ -97,6 +97,15 @@ export const ActivityListItem = ({
       />
 
       {place && <Details label="Location" value={place.formatted_address} />}
+      {place && (
+        <Image
+          style={{
+            marginTop: 16,
+            height: 100,
+          }}
+          source={{ uri: place.staticMapLink }}
+        />
+      )}
     </Card>
   );
 };

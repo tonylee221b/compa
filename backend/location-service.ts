@@ -5,6 +5,8 @@ export interface Prediction {
 
 export interface Place {
   formatted_address: string;
+  staticMapLink: string;
+
   geometry: {
     location: {
       lat: number;

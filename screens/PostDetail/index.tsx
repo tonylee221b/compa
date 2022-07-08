@@ -7,7 +7,7 @@ import {
   isInActivity,
   leaveActivity,
 } from '../../backend';
-import { Alert, StyleSheet } from 'react-native';
+import { Alert, Image, StyleSheet } from 'react-native';
 //import {MapView} from "react-native-maps";
 import {
   Layout,
@@ -102,6 +102,15 @@ const PostDetail = ({ navigation, route }: PostDetailProps) => {
           label="Location"
           value={place?.formatted_address ?? '(Unspecified)'}
         />
+        {place && (
+          <Image
+            style={{
+              marginTop: 16,
+              height: 100,
+            }}
+            source={{ uri: place.staticMapLink }}
+          />
+        )}
         <Layout style={{ marginTop: 16 }}>
           <ParticipantList participants={activity.participants} />
         </Layout>
