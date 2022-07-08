@@ -1,12 +1,14 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { TabBar, Tab } from "@ui-kitten/components";
-import Home from "../../screens/Home";
-import Post from "../../screens/Post";
-import PostDetail from "../../screens/PostDetail";
+import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { TabBar, Tab } from '@ui-kitten/components';
+import Home from '../../screens/Home';
+import Post from '../../screens/Post';
+import PostDetail from '../../screens/PostDetail';
+import { CreateActivityForm } from '../CreateActivityForm';
+import { MyActivitiesScreen } from '../../screens/MyActivitiesScreen';
 
-const { Navigator, Screen } = createMaterialTopTabNavigator();
+const TabNav = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const MyStack = () => {
@@ -25,20 +27,23 @@ const TopTabBar = ({ navigation, state }) => (
   >
     <Tab title="Home" />
     <Tab title="Post" />
+    <Tab title="My Activities" />
   </TabBar>
 );
 
 const NavContainer = () => {
   return (
     <NavigationContainer>
-      <Navigator
+      <TabNav.Navigator
         screenOptions={{ headerShown: false }}
         tabBar={(props) => <TopTabBar {...props} />}
-        initialRouteName="Home"
+        initialRouteName="MyActivities"
       >
-        <Screen name="Home" component={Home} />
-        <Screen name="Post" component={MyStack} />
-      </Navigator>
+        <TabNav.Screen name="Home" component={Home} />
+        <TabNav.Screen name="Post" component={MyStack} />
+        <TabNav.Screen name="MyActivities" component={MyActivitiesScreen} />
+        <TabNav.Screen name="CreateActivity" component={CreateActivityForm} />
+      </TabNav.Navigator>
     </NavigationContainer>
   );
 };
