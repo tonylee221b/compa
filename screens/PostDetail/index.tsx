@@ -100,9 +100,10 @@ const PostDetail = ({ navigation, route }: PostDetailProps) => {
 
         <Details
           label="Date"
-          value={dayjs(activity.startDate).format('MMM DD, YYYY hh:mm A')}
+          value={dayjs(activity.startDate).format('MMM DD, YYYY')}
         />
         <Details label="City" value={activity.city} />
+        <Details label="Contact" value={activity.contact} />
         <Details
           label="Location"
           value={place?.formatted_address ?? '(Unspecified)'}
@@ -155,7 +156,7 @@ const PostDetail = ({ navigation, route }: PostDetailProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 48,
+    paddingVertical: 20,
     paddingHorizontal: 20,
   },
 });

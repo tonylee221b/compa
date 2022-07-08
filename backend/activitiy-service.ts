@@ -19,6 +19,7 @@ export interface DbActivity {
   updatedAt: string;
   placeId?: string;
   city: string;
+  contact: string;
 }
 
 export async function createActivity(
@@ -31,6 +32,7 @@ export async function createActivity(
     | 'userId'
     | 'startDate'
     | 'city'
+    | 'contact'
   >
 ) {
   const activity: DbActivity = {

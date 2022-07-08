@@ -48,6 +48,7 @@ const formValues = z.object({
   userId: z.string().min(1, { message: 'User ID is required' }),
   startDate: z.string().min(1, { message: 'Start Date is required' }),
   city: z.string().min(1, { message: 'City is required' }),
+  contact: z.string().min(1, { message: 'Contact is required' }),
 });
 
 type FormValues = z.infer<typeof formValues>;
@@ -65,6 +66,7 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
       startDate: '',
       title: '',
       userId: '',
+      contact: '',
     },
   });
   const { errors } = form.formState;
@@ -171,6 +173,23 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
             />
             <Text status="danger" appearance="hint">
               {errors.limit?.message}
+            </Text>
+          </Layout>
+          <Layout style={styles.formGroup}>
+            <Controller
+              control={form.control}
+              name="contact"
+              render={({ field: { value, onChange, ...field } }) => (
+                <Input
+                  onChangeText={onChange}
+                  value={value.toString()}
+                  {...field}
+                  label="Contact"
+                />
+              )}
+            />
+            <Text status="danger" appearance="hint">
+              {errors.contact?.message}
             </Text>
           </Layout>
           <Layout style={styles.formGroup}>

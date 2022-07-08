@@ -63,7 +63,7 @@ export const MyActivitiesScreen = ({ navigation }: MyActivitiesScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 48,
+    paddingVertical: 20,
     paddingHorizontal: 20,
   },
 });

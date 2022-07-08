@@ -86,7 +86,7 @@ const Home = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 48,
+    paddingVertical: 20,
     flex: 1,
     paddingHorizontal: 20,
   },

@@ -39,6 +39,7 @@ export async function init() {
     startDate: '2023-01-01',
     title: 'Biking',
     userId: userAndrew.id,
+    contact: 'andrew@myseneca.ca',
   });
 
   const coffee = await createActivity({
@@ -49,6 +50,7 @@ export async function init() {
     startDate: '2022-08-01',
     title: 'Coffee',
     userId: userTony.id,
+    contact: 'tony.lee@myseneca.ca',
   });
 
   const beer = await createActivity({
@@ -59,6 +61,7 @@ export async function init() {
     startDate: '2023-01-01',
     title: 'Beer',
     userId: userThomas.id,
+    contact: 'thomas@myseneca.ca',
   });
 
   await addParticipant(beer.id, userAndrew);
