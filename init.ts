@@ -34,7 +34,7 @@ export async function init() {
   const biking = await createActivity({
     city: 'Toronto',
     description: "Let's go biking",
-    placeId: 'https://goo.gl/maps/xuueMQhnKxmWBEfj8',
+    placeId: 'ChIJrTLr-GyuEmsRBfy61i59si0',
     limit: 2,
     startDate: '2023-01-01',
     title: 'Biking',
@@ -44,7 +44,7 @@ export async function init() {
   const coffee = await createActivity({
     city: 'Toronto',
     description: "Let's go cafe",
-    placeId: 'https://goo.gl/maps/wXm7SdkH14ji8pkJA',
+    placeId: 'ChIJrTLr-GyuEmsRBfy61i59si0',
     limit: 1,
     startDate: '2022-08-01',
     title: 'Coffee',
@@ -54,7 +54,7 @@ export async function init() {
   const beer = await createActivity({
     city: 'Toronto',
     description: "Let's go beer",
-    placeId: 'https://goo.gl/maps/UEgaieYosqw4doKL7',
+    placeId: 'ChIJrTLr-GyuEmsRBfy61i59si0',
     limit: 100,
     startDate: '2023-01-01',
     title: 'Beer',

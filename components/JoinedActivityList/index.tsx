@@ -1,4 +1,4 @@
-import { Divider, List } from '@ui-kitten/components';
+import { Divider, List, ListItem } from '@ui-kitten/components';
 import React from 'react';
 import { DbActivity } from '../../backend';
 import { ActivityListItem } from '../ActivityListItem';
@@ -15,6 +15,7 @@ export const JoinedActivityList = ({
 }: JoinedActivityListProps) => {
   return (
     <List
+      style={{ maxHeight: 450 }}
       ItemSeparatorComponent={Divider}
       data={activities}
       renderItem={({ item }) => (

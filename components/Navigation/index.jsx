@@ -37,7 +37,7 @@ const NavContainer = () => {
       <TabNav.Navigator
         screenOptions={{ headerShown: false }}
         tabBar={(props) => <TopTabBar {...props} />}
-        initialRouteName="Home"
+        initialRouteName="MyActivities"
       >
         <TabNav.Screen name="Home" component={Home} />
         <TabNav.Screen name="Post" component={MyStack} />

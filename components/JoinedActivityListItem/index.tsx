@@ -13,6 +13,7 @@ import {
 } from '../../backend';
 import { useNavigation } from '@react-navigation/native';
 import { useAuthUserContext } from '../../context/AuthUserContext';
+import { getPlaceDetail, Place } from '../../backend/location-service';
 
 export interface JoinedActivityListItemProps {
   activity: DbActivity;
@@ -46,7 +47,18 @@ export const JoinedActivityListItem = ({
   const [user, setUser] = useState<DbUser | undefined>();
   const navigation = useNavigation<any>();
   const { authUser } = useAuthUserContext();
+  const [place, setPlace] = useState<Place>();
+
   const isHost = activity.userId === authUser?.id;
+
+  useEffect(() => {
+    if (activity.placeId) {
+      getPlaceDetail(activity.placeId)
+        .then(setPlace)
+        .catch((err) => Alert.alert('Error', err.message));
+    }
+  }, [activity.placeId]);
+
   useEffect(
     function fetchUser() {
       getUser(activity.userId).then(setUser);
@@ -68,7 +80,7 @@ export const JoinedActivityListItem = ({
   const onViewPress = () => navigation.navigate('PostDetail', { activity });
 
   const cardHeader = (
-    <Layout>
+    <Layout style={{ marginVertical: 20 }}>
       <Layout style={styles.header}>
         <Layout>
           <Text category="h3">{activity.title}</Text>
@@ -105,13 +117,10 @@ export const JoinedActivityListItem = ({
 
       <Details
         label="Start date"
-        iconName="calendar"
         value={dayjs(activity.startDate).format('MMM DD, YYYY')}
       />
 
-      {activity.placeId && (
-        <Details label="Google map" iconName="map" value={activity.placeId} />
-      )}
+      {place && <Details label="Location" value={place.formatted_address} />}
     </Card>
   );
 };

@@ -12,31 +12,13 @@ import {
 } from '../../backend';
 import { useNavigation } from '@react-navigation/native';
 import { useAuthUserContext } from '../../context/AuthUserContext';
+import { Details } from '../Details';
+import { getPlaceDetail, Place } from '../../backend/location-service';
 
 export interface ActivityListItemProps {
   activity: DbActivity;
   onJoin?(id: string): void;
 }
-
-interface DetailsProps {
-  label: string;
-  value: string;
-
-  iconName?: string;
-}
-
-const Details = ({ label, value, iconName }: DetailsProps) => {
-  return (
-    <Layout style={styles.details}>
-      <Layout style={styles.row}>
-        <Text category="s1">{label}</Text>
-        {iconName && <Icon style={styles.icon} name={iconName} />}
-      </Layout>
-
-      <Text category="p1">{value}</Text>
-    </Layout>
-  );
-};
 
 export const ActivityListItem = ({
   activity,
@@ -46,6 +28,15 @@ export const ActivityListItem = ({
   const navigation = useNavigation<any>();
   const { authUser } = useAuthUserContext();
 
+  const [place, setPlace] = useState<Place>();
+
+  useEffect(() => {
+    if (activity.placeId) {
+      getPlaceDetail(activity.placeId)
+        .then(setPlace)
+        .catch((err) => Alert.alert('Error', err.message));
+    }
+  }, [activity.placeId]);
   useEffect(
     function fetchUser() {
       getUser(activity.userId).then(setUser);
@@ -102,13 +93,10 @@ export const ActivityListItem = ({
 
       <Details
         label="Start date"
-        iconName="calendar"
         value={dayjs(activity.startDate).format('MMM DD, YYYY')}
       />
 
-      {activity.placeId && (
-        <Details label="Google map" iconName="map" value={activity.placeId} />
-      )}
+      {place && <Details label="Location" value={place.formatted_address} />}
     </Card>
   );
 };
@@ -132,12 +120,5 @@ const styles = StyleSheet.create({
     marginRight: 4,
     marginLeft: 4,
     fill: 'white',
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  details: {
-    marginTop: 8,
   },
 });
