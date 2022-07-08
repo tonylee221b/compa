@@ -77,6 +77,7 @@ export const CreateActivityForm = (props: CreateActivityFormProps) => {
     try {
       await createActivity(data);
       props.navigation.navigate('MyActivities');
+      form.reset();
     } catch (error) {
       Alert.alert('Error', (error as Error).message);
     }

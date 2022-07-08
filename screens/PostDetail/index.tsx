@@ -91,8 +91,13 @@ const PostDetail = ({ navigation, route }: PostDetailProps) => {
         </Text>
       </Layout>
 
-      <Layout style={{ marginTop: 32 }}>
-        <Text>{activity.description}</Text>
+      <Layout style={{ marginTop: 16 }}>
+        <Details label="Description" value={activity.description} />
+
+        <Layout style={{ marginTop: 16 }}>
+          <ParticipantList participants={activity.participants} />
+        </Layout>
+
         <Details
           label="Date"
           value={dayjs(activity.startDate).format('MMM DD, YYYY hh:mm A')}
@@ -102,6 +107,7 @@ const PostDetail = ({ navigation, route }: PostDetailProps) => {
           label="Location"
           value={place?.formatted_address ?? '(Unspecified)'}
         />
+
         {place && (
           <Image
             style={{
@@ -111,9 +117,6 @@ const PostDetail = ({ navigation, route }: PostDetailProps) => {
             source={{ uri: place.staticMapLink }}
           />
         )}
-        <Layout style={{ marginTop: 16 }}>
-          <ParticipantList participants={activity.participants} />
-        </Layout>
 
         <Layout
           style={{
